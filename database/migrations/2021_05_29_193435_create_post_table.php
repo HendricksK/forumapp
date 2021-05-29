@@ -13,9 +13,13 @@ class CreatePostTable extends Migration
      */
     public function up()
     {
+        //https://laravel.com/docs/8.x/migrations#creating-tables
         Schema::create('post', function (Blueprint $table) {
             $table->id();
+            $table->text('name');
+            $table->text('data');
             $table->timestamps();
+            $table->foreignId('category_id');
         });
     }
 
