@@ -19,7 +19,8 @@ class CreatePostTable extends Migration
             $table->text('name');
             $table->text('data');
             $table->timestamps();
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->constrained('category');
+            //https://laravel.com/docs/8.x/migrations#foreign-key-constraints
         });
     }
 
