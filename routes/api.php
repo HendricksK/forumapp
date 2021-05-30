@@ -5,8 +5,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-use OpenApi\Annotations as OA;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,7 +18,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
- *    title="Laravel Forumapp",
+ *    title="Laravel",
  *    version="1.0.0",
  * )
  */
