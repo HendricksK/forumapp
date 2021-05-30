@@ -33,3 +33,10 @@
 ##  - / Additional Requirements
 ##  - You will need to create a logger that will log all API requests and responses. This class will however have to use the GATEWAY PATTERN so that the storage system can be changed from database to files.
 ##  - You will need to demonstrate an understanding of the REPOSITORY PATTERN during your database interactions.
+
+
+# SWAGGER
+## used the staic swagger-ui option https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/installation.md#static-files-without-http-or-html
+## moved dist folder from swagger-ui github to public swagger folder, along with composer install for swagger
+## running swagger ./vendor/zircote/swagger-php/bin/openapi -o ./public/swagger/openapi.json ./routes/api.php 
+## will add more folder routes as required
