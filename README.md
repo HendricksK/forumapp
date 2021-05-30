@@ -40,3 +40,9 @@
 ## moved dist folder from swagger-ui github to public swagger folder, along with composer install for swagger
 ## running swagger ./vendor/zircote/swagger-php/bin/openapi -o ./public/swagger/openapi.json ./routes/api.php 
 ## will add more folder routes as required
+## swagger url https://laravelforumapp.herokuapp.com/swagger/dist/index.html
+
+# Heroku
+## hosted on heroku 
+## https://laravelforumapp.herokuapp.com/
+## data produced using faker
