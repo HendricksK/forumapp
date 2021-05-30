@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::prefix('users')->group(function() {
+    Route::get('/all', [UserController::class, 'getAllUsers']);
+    Route::get('/user', function(Request $request) {
+        $user = new UserController();
+        $response = $user->getUser($request->query('id'));
+        if ($response->isEmpty()) {
+            return response()->json(['message' => 'Not Found.'], 404);
+        }
+        return $response;
+    });
 });
