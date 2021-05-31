@@ -30,43 +30,8 @@ use App\Models\User;
 // });
 
 Route::prefix('users')->group(function() {
-    /**
-     * @OA\Get(
-     *     path="/users/all",
-     *     summary="Gets all users",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
     Route::get('/all', [UserController::class, 'getAllUsers']);
-    /**
-     * @OA\Get(
-     *     path="/users/user{id}",
-     *     summary="Gets a user based on id",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
+
     Route::get('/user', function(Request $request) {
         $user = new UserController();
         $response = $user->getUser($request->query('id'));
@@ -76,24 +41,6 @@ Route::prefix('users')->group(function() {
         return $response;
     });
 
-    /**
-     * @OA\Post(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
     Route::post('/user', function(Request $request) {
         $user = new User();
         $user->name = 'test user';
@@ -106,24 +53,6 @@ Route::prefix('users')->group(function() {
         return $response;
     });
 
-    /**
-     * @OA\Post(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
     Route::put('/user', function(Request $request) {
         $user = new User();
         $user->id = 5;
@@ -139,24 +68,6 @@ Route::prefix('users')->group(function() {
         return $response;
     });
 
-        /**
-     * @OA\Post(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
     Route::patch('/user', function(Request $request) {
         $user = new User();
         $user->id = 5;
@@ -172,24 +83,6 @@ Route::prefix('users')->group(function() {
         return $response;
     });
 
-    /**
-     * @OA\Post(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
     Route::delete('/user', function(Request $request) {
         $userController = new UserController();
         $response = $userController->deleteUser($request->input('id'));
