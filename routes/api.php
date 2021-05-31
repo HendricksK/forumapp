@@ -5,6 +5,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -69,6 +71,129 @@ Route::prefix('users')->group(function() {
         $user = new UserController();
         $response = $user->getUser($request->query('id'));
         if ($response->isEmpty()) {
+            return response()->json(['message' => 'Not Found.'], 404);
+        }
+        return $response;
+    });
+
+    /**
+     * @OA\Post(
+     *     path="/users/user{id}",
+     *     summary="Create a user",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
+    Route::post('/user', function(Request $request) {
+        $user = new User();
+        $user->name = 'test user';
+        $user->email = 'testuser@test' . rand() . '.com';
+        $user->password = 'testtesttest';
+
+        $userController = new UserController();
+        $response = $userController->createUser($user);
+
+        return $response;
+    });
+
+    /**
+     * @OA\Post(
+     *     path="/users/user{id}",
+     *     summary="Create a user",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
+    Route::put('/user', function(Request $request) {
+        $user = new User();
+        $user->id = 5;
+        $user->name = 'test user';
+        $user->email = 'testuser@test' . rand() . '.com';
+        $user->password = 'testtesttest';
+
+        $userController = new UserController();
+        $response = $userController->updateUser($user);
+        if (empty($response)) {
+            return response()->json(['message' => 'Not Found.'], 404);
+        }
+        return $response;
+    });
+
+        /**
+     * @OA\Post(
+     *     path="/users/user{id}",
+     *     summary="Create a user",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
+    Route::patch('/user', function(Request $request) {
+        $user = new User();
+        $user->id = 5;
+        $user->name = 'test user';
+        $user->email = 'testuser@test' . rand() . '.com';
+        $user->password = 'testtesttest';
+
+        $userController = new UserController();
+        $response = $userController->updateUser($user);
+        if (empty($response)) {
+            return response()->json(['message' => 'Not Found.'], 404);
+        }
+        return $response;
+    });
+
+    /**
+     * @OA\Post(
+     *     path="/users/user{id}",
+     *     summary="Create a user",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
+    Route::delete('/user', function(Request $request) {
+        $userController = new UserController();
+        $response = $userController->deleteUser($request->input('id'));
+        if (empty($response)) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
         return $response;
