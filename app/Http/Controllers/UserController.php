@@ -211,16 +211,42 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function deleteUser(int $id):bool 
+    public function deleteUser(Request $request) 
     {
-        $userDelete = User::find($id);
-        if (!empty($userDelete)) {
-            return $userDelete->delete();
+
+        $response = [
+            'error' => '',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return $this->returnValidation($response, $validator);
+         }
+
+        $params = $request->all();
+        $user = User::find($params['id']);
+
+        if (!empty($user)) {
+            try {
+                $user->delete();
+                $response['error'] = false;
+            } catch (Exception $e) {
+                Log::debug($e->getMessage());
+                $response['error'] = $e->getMessage();
+            }
+            
+        } else {
+            $response['error'] = 'User does not exist';
         }
-        return false;
+
+        return $response;
     }
 
-    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator):array {
+    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator):array 
+    {
         $response['user'] = false;
         foreach($validator->messages()->all() as $msg) {
             $response['error'] .= $msg . ' ';

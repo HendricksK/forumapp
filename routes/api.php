@@ -65,9 +65,9 @@ Route::prefix('users')->group(function()
     Route::delete('/user', function(Request $request) 
     {
         $userController = new UserController();
-        $response = $userController->deleteUser($request->input('id'));
-        if (empty($response)) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $userController->deleteUser($request);
+        if (!empty($response['error'])) {
+            return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
         }
         return $response;
     });

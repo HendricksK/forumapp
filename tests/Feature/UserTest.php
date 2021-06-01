@@ -96,7 +96,14 @@ class UserTest extends TestCase
 
     public function testDeleteUser() 
     {
-        $this->assertTrue(false);
+        $response = $this->withHeaders([
+            'X-Header' => 'Value',
+        ])->delete('/api/users/user', 
+            [
+                'id' => 8
+            ]
+        );
+        $response->assertStatus(200);
 
     }
 }
