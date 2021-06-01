@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
 use App\Models\User;
 
 /*
@@ -29,61 +28,42 @@ use App\Models\User;
 //     return $request->user();
 // });
 
-Route::prefix('users')->group(function() {
+Route::prefix('users')->group(function() 
+{
     Route::get('/all', [UserController::class, 'getAllUsers']);
 
-    Route::get('/user', function(Request $request) {
-        $user = new UserController();
-        $response = $user->getUser($request->query('id'));
+    Route::get('/user', function(Request $request) 
+    {
+        $userController = new UserController();
+        $response = $userController->getUser($request->query('id'));
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
         return $response;
     });
 
-    Route::post('/user', function(Request $request) {
-        $user = new User();
-        $user->name = 'test user';
-        $user->email = 'testuser@test' . rand() . '.com';
-        $user->password = 'testtesttest';
-
+    Route::post('/user', function(Request $request) 
+    {
         $userController = new UserController();
-        $response = $userController->createUser($user);
-
-        return $response;
-    });
-
-    Route::put('/user', function(Request $request) {
-        $user = new User();
-        $user->id = 5;
-        $user->name = 'test user';
-        $user->email = 'testuser@test' . rand() . '.com';
-        $user->password = 'testtesttest';
-
-        $userController = new UserController();
-        $response = $userController->updateUser($user);
-        if (empty($response)) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $userController->createUser($request);
+        if ($response['user']) {
+            return $response['user'];
         }
-        return $response;
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
-    Route::patch('/user', function(Request $request) {
-        $user = new User();
-        $user->id = 5;
-        $user->name = 'test user';
-        $user->email = 'testuser@test' . rand() . '.com';
-        $user->password = 'testtesttest';
-
+    Route::put('/user', function(Request $request) 
+    {
         $userController = new UserController();
-        $response = $userController->updateUser($user);
-        if (empty($response)) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $userController->updateUser($request);
+        if ($response['user']) {
+            return $response['user'];
         }
-        return $response;
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
-    Route::delete('/user', function(Request $request) {
+    Route::delete('/user', function(Request $request) 
+    {
         $userController = new UserController();
         $response = $userController->deleteUser($request->input('id'));
         if (empty($response)) {

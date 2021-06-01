@@ -7,6 +7,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Validation\Validator;
 
 use App\Models\User;
 
@@ -35,7 +39,8 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function getUser(int $id):collection {
+    public function getUser(int $id):collection 
+    {
         return User::where('id', $id)->get();
     }
 
@@ -57,7 +62,8 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function getAllUsers():collection {
+    public function getAllUsers():collection 
+    {
         return User::all();
     }
 
@@ -79,12 +85,52 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function createUser(user $user):bool {
-        return $user->save();
+    //TODO: add validation https://laravel.com/docs/8.x/validation
+    public function createUser(Request $request) 
+    {
+        $response = [
+            'user' => '',
+            'error' => '',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+           return $this->returnValidation($response, $validator);
+        }
+
+        $params = $request->all();
+        $user = new User();
+        $user->name = $params['name'];
+        $user->email = $params['email'];
+        $user->password = $params['password'];
+
+        try {
+            
+            if (User::where('email', $user->email)->get()->isEmpty()) {
+                $user->save();
+                $response['user'] = $user->getAttributes();
+                $response['error'] = false;
+            } else {
+                $response['user'] = false;
+                $response['error'] = 'User already exists';
+            }
+            
+        } catch (Exception $e) {
+            Log::debug($e->getMessage());
+            $response['user'] = false;
+            $response['error'] = $e->getMessage();
+        }
+
+        return $response;
     }
 
     /**
-     * @OA\Post(
+     * @OA\Put(
      *     path="/users/user{id}",
      *     summary="Create a user",
      *     @OA\Parameter(
@@ -101,20 +147,54 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function updateUser(user $user):bool {
-        $userUpdate = User::find($user->id);
-        if (!empty($userUpdate)) {
-            $userUpdate->name = $user->name;
-            $userUpdate->email = $user->email;
-            $userUpdate->password = $user->password;
-            return $userUpdate->save();
+    public function updateUser(Request $request) 
+    {
+
+        $response = [
+            'user' => '',
+            'error' => '',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return $this->returnValidation($response, $validator);
+         }
+
+        $params = $request->all();
+        $user = User::find($params['id']);
+        $user->name = $params['name'];
+        $user->email = $params['email'];
+        $user->password = $params['password'];
+
+        try {
+            
+            if ($user->id) {
+                $user->save();
+                $response['user'] = $user->getAttributes();
+                $response['error'] = false;
+            } else {
+                $response['user'] = false;
+                $response['error'] = 'User does not exist';
+            }
+            
+        } catch (Exception $e) {
+            Log::debug($e->getMessage());
+            $response['user'] = false;
+            $response['error'] = $e->getMessage();
         }
-        return false;
+
+        return $response;
         
     }
 
     /**
-     * @OA\Post(
+     * @OA\Delete(
      *     path="/users/user{id}",
      *     summary="Create a user",
      *     @OA\Parameter(
@@ -131,11 +211,20 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function deleteUser(int $id):bool {
+    public function deleteUser(int $id):bool 
+    {
         $userDelete = User::find($id);
         if (!empty($userDelete)) {
             return $userDelete->delete();
         }
         return false;
+    }
+
+    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator):array {
+        $response['user'] = false;
+        foreach($validator->messages()->all() as $msg) {
+            $response['error'] .= $msg . ' ';
+        }
+        return $response;
     }
 }
