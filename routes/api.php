@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -17,18 +18,7 @@ use App\Models\User;
 |
 */
 
-/**
- * @OA\Info(
- *    title="Laravel",
- *    version="1.0.0",
- * )
- */
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::prefix('users')->group(function() 
+Route::prefix('users')->middleware('apilogger')->group(function() 
 {
     Route::get('/all', [UserController::class, 'getAllUsers']);
 
