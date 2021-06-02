@@ -83,8 +83,7 @@ class UserTest extends TestCase
                 'remember_token' => rand(),
             ]
         );
-        // Http::fake();
-        // $response = Http::post('/api/users/user');
+
         if ($response->getStatusCode() == 200) {
             $this->assertTrue(true);
         } else {
@@ -113,8 +112,7 @@ class UserTest extends TestCase
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             ]
         );
-        // Http::fake();
-        // $response = Http::put('/api/users/user');
+
         if ($response->getStatusCode() == 200) {
             $this->assertTrue(true);
         } else {
@@ -132,8 +130,7 @@ class UserTest extends TestCase
                 'id' => $this->user->getAttribute('id')
             ]
         );
-        // Http::fake();
-        // $response = Http::delete('/api/users/user');
+
         if ($response->getStatusCode() == 200) {
             $this->assertTrue(true);
         } else {
