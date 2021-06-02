@@ -19,7 +19,6 @@ class UserController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct() {}
-    
 
     /**
      * @OA\Get(
@@ -62,6 +61,7 @@ class UserController extends Controller
      *     )
      * )
      */
+    // TODO: add limiter, and range.
     public function getAllUsers():collection 
     {
         return User::all();
