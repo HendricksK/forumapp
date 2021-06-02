@@ -5,9 +5,88 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/users/all": {
+        "/users/user{id}": {
             "get": {
-                "summary": "Gets all users",
+                "summary": "Gets a user based on id",
+                "operationId": "App\\Http\\Controllers\\UserController::getUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Create a user",
+                "operationId": "App\\Http\\Controllers\\UserController::updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a user",
+                "operationId": "App\\Http\\Controllers\\UserController::createUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Create a user",
+                "operationId": "App\\Http\\Controllers\\UserController::deleteUser",
                 "parameters": [
                     {
                         "name": "id",
@@ -32,9 +111,10 @@
                 }
             }
         },
-        "/users/user{id}": {
+        "/users/all": {
             "get": {
-                "summary": "Gets a user based on id",
+                "summary": "Gets all users",
+                "operationId": "App\\Http\\Controllers\\UserController::getAllUsers",
                 "parameters": [
                     {
                         "name": "id",

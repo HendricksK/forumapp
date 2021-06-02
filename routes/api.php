@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,49 +28,46 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // });
 
-Route::prefix('users')->group(function() {
-    /**
-     * @OA\Get(
-     *     path="/users/all",
-     *     summary="Gets all users",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
+Route::prefix('users')->group(function() 
+{
     Route::get('/all', [UserController::class, 'getAllUsers']);
-    /**
-     * @OA\Get(
-     *     path="/users/user{id}",
-     *     summary="Gets a user based on id",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="OK"
-     *     )
-     * )
-     */
-    Route::get('/user', function(Request $request) {
-        $user = new UserController();
-        $response = $user->getUser($request->query('id'));
+
+    Route::get('/user', function(Request $request) 
+    {
+        $userController = new UserController();
+        $response = $userController->getUser($request->query('id'));
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
+        }
+        return $response;
+    });
+
+    Route::post('/user', function(Request $request) 
+    {
+        $userController = new UserController();
+        $response = $userController->createUser($request);
+        if ($response['user']) {
+            return $response['user'];
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
+    });
+
+    Route::put('/user', function(Request $request) 
+    {
+        $userController = new UserController();
+        $response = $userController->updateUser($request);
+        if ($response['user']) {
+            return $response['user'];
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
+    });
+
+    Route::delete('/user', function(Request $request) 
+    {
+        $userController = new UserController();
+        $response = $userController->deleteUser($request);
+        if (!empty($response['error'])) {
+            return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
         }
         return $response;
     });
