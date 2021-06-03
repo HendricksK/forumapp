@@ -16,9 +16,20 @@ class ApiLoggerController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct() {}
+    public function log(Request $request, JsonResponse $response) 
+    {
+        if (env('API_LOG', false)) {
+            if (env('API_LOG_DB', false)) {
+                self::dbLog($request, $response);
+            }
+            if (env('API_LOG_FILE', false)) {
+                self::fileLog($request, $response);
+            }
+        }
+    }
 
-    public function log(Request $request, JsonResponse $response) {
+    private static function dbLog (Request $request, JsonResponse $response) 
+    {
         $logger = new ApiLogger();
 
         $request_object = [
@@ -32,5 +43,12 @@ class ApiLoggerController extends BaseController
         $logger->http_code = $response->getStatusCode();
         $logger->method = $request->getMethod();
         $logger->save();
+    }
+
+    private static function fileLog(Request $request, JsonResponse $response) 
+    {
+        Log::channel('api')->info(
+            'Request: ' . $request .'Response: ' . $response
+        );
     }
 }
