@@ -18,7 +18,7 @@ class ApiLoggerController extends BaseController
 
     public function log(Request $request, JsonResponse $response) 
     {
-        if (env('API_LOG', false)) {
+        if (env('ENABLE_API_LOGGER', false)) {
             if (env('API_LOG_DB', false)) {
                 self::dbLog($request, $response);
             }
