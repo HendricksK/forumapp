@@ -16,7 +16,7 @@ class ApiLoggerController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function log(Request $request, JsonResponse $response) 
+    public function log(Request $request, JsonResponse $response = null) 
     {
         if (env('ENABLE_API_LOGGER', false)) {
             if (env('API_LOG_DB', false)) {

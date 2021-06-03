@@ -10,15 +10,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Validation\Validator;
 
 use App\Models\User;
 
 class UserController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    public function __construct() {}
 
     /**
      * @OA\Get(

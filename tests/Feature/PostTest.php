@@ -19,4 +19,16 @@ class PostTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+        /**
+     * PostController tests 
+     * returns a list of posts 
+     * 
+     * @return void
+     */
+    public function testGetAllPosts() 
+    {
+        $response = $this->get('/api/post/all');
+        $response->assertStatus(200);
+    }
 }
