@@ -54,7 +54,7 @@ class PostController extends Controller implements Crud
 
     /**
      * @OA\Get(
-     *     path="/api/post/post",
+     *     path="/api/post/all",
      *     summary="Gets all posts",
      *     @OA\Response(
      *         response=200,
@@ -66,7 +66,7 @@ class PostController extends Controller implements Crud
         return Post::all();
     }
 
-        /**
+    /**
      * @OA\Post(
      *     path="/api/post/post",
      *     summary="Create a post",
@@ -182,7 +182,9 @@ class PostController extends Controller implements Crud
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['post'] = false;
+            return $response;
          }
 
         $params = $request->all();
@@ -242,7 +244,9 @@ class PostController extends Controller implements Crud
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['post'] = false;
+            return $response;
         }
 
         $params = $request->all();
@@ -256,7 +260,7 @@ class PostController extends Controller implements Crud
         }
 
         try {
-            $post->delete();
+            $response['post'] = $post->delete();
             $response['error'] = false;
         } catch (Exception $e) {
             Log::debug($e->getMessage());

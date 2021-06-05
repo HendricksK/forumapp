@@ -100,7 +100,9 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-           return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
         }
 
         $params = $request->all();
@@ -180,7 +182,9 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
          }
 
         $params = $request->all();
@@ -240,7 +244,9 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
         }
 
         $params = $request->all();
@@ -248,7 +254,7 @@ class UserController extends Controller
 
         if (!empty($user)) {
             try {
-                $user->delete();
+                $response['user'] = $user->delete();
                 $response['error'] = false;
             } catch (Exception $e) {
                 Log::debug($e->getMessage());

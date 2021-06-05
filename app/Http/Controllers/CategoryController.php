@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Interfaces\Crud;
 
 use App\Models\Category;
-use App\Models\Post;
-use App\Models\Comment;
 
 class CategoryController extends Controller implements Crud
 {
@@ -178,7 +176,9 @@ class CategoryController extends Controller implements Crud
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['category'] = false;
+            return $response;
          }
 
         $params = $request->all();
@@ -234,7 +234,9 @@ class CategoryController extends Controller implements Crud
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['category'] = false;
+            return $response;
         }
 
         $params = $request->all();
@@ -242,7 +244,7 @@ class CategoryController extends Controller implements Crud
 
         if (!empty($category)) {
             try {
-                $category->delete();
+                $response['category'] = $category->delete();
                 $response['error'] = false;
             } catch (Exception $e) {
                 Log::debug($e->getMessage());
