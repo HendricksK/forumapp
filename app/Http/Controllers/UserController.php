@@ -19,7 +19,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/user{id}",
+     *     path="/api/users/user?id={id}",
      *     summary="Gets a user based on id",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -42,16 +42,8 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/all",
+     *     path="/api/users/all",
      *     summary="Gets all users",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="OK"
@@ -66,15 +58,25 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/users/user{id}",
+     *     path="/api/users/user",
      *     summary="Create a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
+     *         in="query",
+     *         name="name",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="email",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="password",
+     *         required=true,
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -128,15 +130,31 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
+     *     path="/api/users/user",
+     *     summary="Update a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
+     *         in="query",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="name",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="email",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="password",
+     *         required=true,
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -192,15 +210,13 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
+     *     path="/api/users/user",
+     *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
+     *         in="query",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
      *     ),
      *     @OA\Response(
      *         response=200,
