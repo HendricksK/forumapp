@@ -4,21 +4,25 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Seeder;
 use Tests\TestCase;
+use App\Models\Post;
 
 class PostTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
 
-        $response->assertStatus(200);
-    }
+    private $post;
+
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->post = Post::factory()->create();
+    //     Post::factory()->create();
+    //     Post::factory()->create();
+    //     Post::factory()->create();
+    //     Post::factory()->create();
+    // }
 
         /**
      * PostController tests 

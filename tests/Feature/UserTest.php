@@ -5,16 +5,12 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
-
 use Illuminate\Database\Seeder;
-
 use Tests\TestCase;
-use App\Http\Controllers\UserController;
 use App\Models\User;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
 
     private $user;
 
@@ -29,42 +25,6 @@ class UserTest extends TestCase
     }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-    }
-
-    /**
-     * UserController tests getAllUsers
-     * Returns a list of users
-     * 
-     * @return void
-     */
-    public function testGetAllUsers() 
-    {
-        $response = $this->get('/api/users/all');
-        $response->assertStatus(200);
-    }
-
-    /**
-     * UserController tests getUser
-     * Returns a single user based on the id
-     *
-     * @return void
-     */
-    public function testGetUser() 
-    {
-
-        $response = $this->get('/api/users/user?id=' . $this->user->getAttribute('id'));
-        $response->assertStatus(200);
-    }
-
-    /**
      * UserController tests createUser
      * tests user creation
      *
@@ -74,7 +34,7 @@ class UserTest extends TestCase
     {
         $response = $this->withHeaders([
             'X-Header' => 'Value',
-        ])->post('/api/users/user', 
+        ])->post('/api/user/user', 
             [
                 'name' => 'Leonard Hofstadter',
                 'email' => 'LeonardHofstadter' . rand() . '.' . rand(),
@@ -89,9 +49,6 @@ class UserTest extends TestCase
         } else {
             $this->assertFalse(false);
         }
-        
-        // $this->assertTrue(false);
-
     }
 
     /**
@@ -104,7 +61,7 @@ class UserTest extends TestCase
     {
         $response = $this->withHeaders([
             'X-Header' => 'Value',
-        ])->put('/api/users/user', 
+        ])->put('/api/user/user', 
             [
                 'id' => $this->user->getAttribute('id'),
                 'name' => 'Leonard Hofstadter',
@@ -125,7 +82,7 @@ class UserTest extends TestCase
     {
         $response = $this->withHeaders([
             'X-Header' => 'Value',
-        ])->delete('/api/users/user', 
+        ])->delete('/api/user/user', 
             [
                 'id' => $this->user->getAttribute('id')
             ]
@@ -137,5 +94,30 @@ class UserTest extends TestCase
             $this->assertFalse(false);
         }
 
+    }
+
+    /**
+     * UserController tests getAllUsers
+     * Returns a list of users
+     * 
+     * @return void
+     */
+    public function testGetAllUsers() 
+    {
+        $response = $this->get('/api/user/all');
+        $response->assertStatus(200);
+    }
+
+    /**
+     * UserController tests getUser
+     * Returns a single user based on the id
+     *
+     * @return void
+     */
+    public function testGetUser() 
+    {
+
+        $response = $this->get('/api/user/user?id=' . $this->user->getAttribute('id'));
+        $response->assertStatus(200);
     }
 }

@@ -4,22 +4,41 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Seeder;
 use Tests\TestCase;
-use App\Http\Controllers\UserController;
-use App\Models\User;
+use App\Models\Comment;
+use App\Models\Post;
+use App\Models\Category;
 
 class CommentTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
 
-        $response->assertStatus(200);
+    private $comment;
+    private $post;
+    private $category;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        
+        $this->category = Category::factory()->create();
+        Category::factory()->create();
+        Category::factory()->create();
+        Category::factory()->create();
+        Category::factory()->create();
+
+        $this->post = Post::factory()->create();
+        Post::factory()->create();
+        Post::factory()->create();
+        Post::factory()->create();
+        Post::factory()->create();
+
+        $this->comment = Comment::factory()->create();
+        Comment::factory()->create();
+        Comment::factory()->create();
+        Comment::factory()->create();
+        Comment::factory()->create();
     }
 
     /**

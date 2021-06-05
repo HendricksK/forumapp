@@ -24,7 +24,7 @@ class CommentFactory extends Factory
         return [
             //
             'data' => $this->faker->unique()->paragraph(),
-            'post_id' => $this->faker->numberBetween(1,50)
+            'post_id' => $this->faker->numberBetween(1,5)
         ];
     }
 }
