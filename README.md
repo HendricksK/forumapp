@@ -1,3 +1,7 @@
+## TODO:
+## Add Valdidation to a trait, currently just running it as a file inside of the Controllers, having in a trait might be cleaner.
+## Add range and a limit to the return all inside of controllers
+
 # https://laravel.com/docs/8.x/eloquent#generating-model-classes
 # ------------------------------------------------------------
 # Local env

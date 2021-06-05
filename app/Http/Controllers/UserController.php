@@ -19,7 +19,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/user?id={id}",
+     *     path="/api/user/user?id={id}",
      *     summary="Gets a user based on id",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -42,7 +42,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/all",
+     *     path="/api/user/all",
      *     summary="Gets all users",
      *     @OA\Response(
      *         response=200,
@@ -58,7 +58,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/user",
+     *     path="/api/user/user",
      *     summary="Create a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -130,7 +130,7 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/users/user",
+     *     path="/api/user/user",
      *     summary="Update a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -210,7 +210,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/users/user",
+     *     path="/api/user/user",
      *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -237,7 +237,7 @@ class UserController extends Controller
         
         if ($validator->fails()) {
             return $this->returnValidation($response, $validator);
-         }
+        }
 
         $params = $request->all();
         $user = User::find($params['id']);
@@ -258,7 +258,7 @@ class UserController extends Controller
         return $response;
     }
 
-    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator):array 
+    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator)
     {
         $response['user'] = false;
         foreach($validator->messages()->all() as $msg) {

@@ -37,7 +37,7 @@ class PostController extends Controller implements Crud
         return $response;
     }
 
-    public function put (Request $request) {
+    public function update (Request $request) {
         $response = [
             'post' => '',
             'error' => '',

@@ -21,7 +21,7 @@ use App\Models\User;
 |
 */
 
-Route::prefix('users')->middleware('apilogger')->group(function() {
+Route::prefix('user')->middleware('apilogger')->group(function() {
     Route::get('/all', [UserController::class, 'getAllUsers']);
 
     Route::get('/user', function(Request $request) {
@@ -135,7 +135,7 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
 });
 
 Route::prefix('category')->middleware('apilogger')->group(function() {
-    Route::get('/all', [CategoryController::class, 'get']);
+    Route::get('/all', [CategoryController::class, 'getAllCategory']);
     Route::get('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->get($request);
@@ -147,24 +147,27 @@ Route::prefix('category')->middleware('apilogger')->group(function() {
     Route::post('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->create($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+
+        if ($response['category']) {
+            return $response['category'];
         }
-        return $response;
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::put('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->update($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+
+        if ($response['category']) {
+            return $response['category'];
         }
-        return $response;
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::delete('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->delete($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        
+        if (!empty($response['error'])) {
+            return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
         }
         return $response;
     });

@@ -17,10 +17,15 @@ class ApiLogger
      */
     public function handle(Request $request, Closure $next)
     {
+        
         $logger = new ApiLoggerController();
         $response = $next($request);
-        $logger->log($request, $response);
+        
+        if (env('ENABLE_API_LOGGER', false)) {
+            $logger->log($request, $response);
+        }
 
         return $response;
+
     }
 }
