@@ -135,7 +135,7 @@ class CategoryController extends Controller implements Crud
     }
 
     /**
-     * @OA\update(
+     * @OA\put(
      *     path="/api/category/category",
      *     summary="Update a category",
      *     @OA\Parameter(
@@ -148,6 +148,12 @@ class CategoryController extends Controller implements Crud
      *         description="Parameter with mutliple examples",
      *         in="query",
      *         name="name",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="parent",
      *         required=true,
      *     ),
      *     @OA\Response(

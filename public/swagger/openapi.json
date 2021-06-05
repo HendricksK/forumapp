@@ -5,7 +5,117 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/users/user?id={id}": {
+        "/api/category/category?id={id}": {
+            "get": {
+                "summary": "Gets a category based on id",
+                "operationId": "App\\Http\\Controllers\\CategoryController::get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/all": {
+            "get": {
+                "summary": "Gets all categories",
+                "operationId": "App\\Http\\Controllers\\CategoryController::getAllCategory",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/category": {
+            "put": {
+                "summary": "Update a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "parent",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::create",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "parent",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/user/user?id={id}": {
             "get": {
                 "summary": "Gets a user based on id",
                 "operationId": "App\\Http\\Controllers\\UserController::getUser",
@@ -33,7 +143,7 @@
                 }
             }
         },
-        "/api/users/all": {
+        "/api/user/all": {
             "get": {
                 "summary": "Gets all users",
                 "operationId": "App\\Http\\Controllers\\UserController::getAllUsers",
@@ -44,7 +154,7 @@
                 }
             }
         },
-        "/api/users/user": {
+        "/api/user/user": {
             "put": {
                 "summary": "Update a user",
                 "operationId": "App\\Http\\Controllers\\UserController::updateUser",

@@ -24,7 +24,7 @@ class CategoryFactory extends Factory
         
         return [
             //
-            'name' => $this->faker->unique()->text(),
+            'name' => $this->faker->unique()->word(),
             'parent' => 0 // For future use, for now, manually set 0 
         ];
     }
