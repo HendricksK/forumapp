@@ -21,7 +21,7 @@ use App\Models\User;
 |
 */
 
-Route::prefix('users')->middleware('apilogger')->group(function() {
+Route::prefix('user')->middleware('apilogger')->group(function() {
     Route::get('/all', [UserController::class, 'getAllUsers']);
 
     Route::get('/user', function(Request $request) {
@@ -39,6 +39,9 @@ Route::prefix('users')->middleware('apilogger')->group(function() {
         if ($response['user']) {
             return $response['user'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
@@ -48,24 +51,30 @@ Route::prefix('users')->middleware('apilogger')->group(function() {
         if ($response['user']) {
             return $response['user'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
     Route::delete('/user', function(Request $request) {
         $userController = new UserController();
         $response = $userController->deleteUser($request);
-        if (!empty($response['error'])) {
+        if ($response['error']) {
             return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
+        }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
         }
         return $response;
     });
 });
 
 Route::prefix('comment')->middleware('apilogger')->group(function() {
-    Route::get('/all', [CommentController::class, 'get']);
+    Route::get('/all', [CommentController::class, 'getAllComment']);
     Route::get('/comment', function(Request $request) {
         $commentController = new CommentController();
-        $response = $userController->get($request);
+        $response = $commentController->get($request);
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
@@ -73,37 +82,48 @@ Route::prefix('comment')->middleware('apilogger')->group(function() {
     });
     Route::post('/comment', function(Request $request) {
         $commentController = new CommentController();
-        $response = $userController->create($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $commentController->create($request);
+        if ($response['comment']) {
+            return $response['comment'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::put('/comment', function(Request $request) {
         $commentController = new CommentController();
-        $response = $userController->update($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $commentController->update($request);
+        if ($response['comment']) {
+            return $response['comment'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::delete('/comment', function(Request $request) {
         $commentController = new CommentController();
-        $response = $userController->delete($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        $response = $commentController->delete($request);
+
+        if ($response['comment']) {
+            return $response['comment'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 });
 
 
 Route::prefix('post')->middleware('apilogger')->group(function() {
-    Route::get('/all', [PostController::class, 'get']);
+    Route::get('/all', [PostController::class, 'getAllPost']);
     Route::get('/post', function(Request $request) {
         $postController = new PostController();
         $response = $postController->get($request);
-        if ($response->isEmpty()) {
+        
+        if ($response['post']->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
         return $response;
@@ -111,31 +131,40 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
     Route::post('/post', function(Request $request) {
         $postController = new PostController();
         $response = $postController->create($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        if ($response['post']) {
+            return $response['post'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::put('/post', function(Request $request) {
         $postController = new PostController();
         $response = $postController->update($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        if ($response['post']) {
+            return $response['post'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::delete('/post', function(Request $request) {
         $postController = new PostController();
         $response = $postController->delete($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        if ($response['post']) {
+            return $response['post'];
         }
-        return $response;
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 });
 
 Route::prefix('category')->middleware('apilogger')->group(function() {
-    Route::get('/all', [CategoryController::class, 'get']);
+    Route::get('/all', [CategoryController::class, 'getAllCategory']);
     Route::get('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->get($request);
@@ -147,25 +176,37 @@ Route::prefix('category')->middleware('apilogger')->group(function() {
     Route::post('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->create($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+
+        if ($response['category']) {
+            return $response['category'];
         }
-        return $response;
+        if ($response['category']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::put('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->update($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+
+        if ($response['category']) {
+            return $response['category'];
         }
-        return $response;
+        if ($response['category']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::delete('/category', function(Request $request) {
         $categoryController = new CategoryController();
         $response = $categoryController->delete($request);
-        if ($response->isEmpty()) {
-            return response()->json(['message' => 'Not Found.'], 404);
+        
+        if ($response['category']) {
+            return $response['category'];
         }
-        return $response;
+        if ($response['category']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
+        return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 });

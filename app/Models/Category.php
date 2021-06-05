@@ -19,5 +19,10 @@ class Category extends Model
         'parent'
     ];
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     protected $table = 'category';
 }

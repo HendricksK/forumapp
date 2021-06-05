@@ -5,7 +5,259 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/users/user{id}": {
+        "/api/category/category?id={id}": {
+            "get": {
+                "summary": "Gets a category based on id",
+                "operationId": "App\\Http\\Controllers\\CategoryController::get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/all": {
+            "get": {
+                "summary": "Gets all categories",
+                "operationId": "App\\Http\\Controllers\\CategoryController::getAllCategory",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/category/category": {
+            "put": {
+                "summary": "Update a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "parent",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::create",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "parent",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a category",
+                "operationId": "App\\Http\\Controllers\\CategoryController::delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/comment/comment?id={id}": {
+            "get": {
+                "summary": "Gets a poscommentt based on id",
+                "operationId": "App\\Http\\Controllers\\CommentController::get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/post/post?id={id}": {
+            "get": {
+                "summary": "Gets a post based on id",
+                "operationId": "App\\Http\\Controllers\\PostController::get",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parameter with mutliple examples",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/post/post": {
+            "get": {
+                "summary": "Gets all posts",
+                "operationId": "App\\Http\\Controllers\\PostController::getAllPost",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a post",
+                "operationId": "App\\Http\\Controllers\\PostController::update",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a post",
+                "operationId": "App\\Http\\Controllers\\PostController::create",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a post",
+                "operationId": "App\\Http\\Controllers\\PostController::delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/user/user?id={id}": {
             "get": {
                 "summary": "Gets a user based on id",
                 "operationId": "App\\Http\\Controllers\\UserController::getUser",
@@ -31,25 +283,47 @@
                         "description": "OK"
                     }
                 }
-            },
+            }
+        },
+        "/api/user/all": {
+            "get": {
+                "summary": "Gets all users",
+                "operationId": "App\\Http\\Controllers\\UserController::getAllUsers",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/user/user": {
             "put": {
-                "summary": "Create a user",
+                "summary": "Update a user",
                 "operationId": "App\\Http\\Controllers\\UserController::updateUser",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "description": "Parameter with mutliple examples",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "examples": {
-                            "int": {
-                                "summary": "An int value.",
-                                "value": "1"
-                            }
-                        }
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -63,19 +337,22 @@
                 "operationId": "App\\Http\\Controllers\\UserController::createUser",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "name",
+                        "in": "query",
                         "description": "Parameter with mutliple examples",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "examples": {
-                            "int": {
-                                "summary": "An int value.",
-                                "value": "1"
-                            }
-                        }
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Parameter with mutliple examples",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -85,51 +362,14 @@
                 }
             },
             "delete": {
-                "summary": "Create a user",
+                "summary": "Delete a user",
                 "operationId": "App\\Http\\Controllers\\UserController::deleteUser",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "description": "Parameter with mutliple examples",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "examples": {
-                            "int": {
-                                "summary": "An int value.",
-                                "value": "1"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/users/all": {
-            "get": {
-                "summary": "Gets all users",
-                "operationId": "App\\Http\\Controllers\\UserController::getAllUsers",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Parameter with mutliple examples",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "examples": {
-                            "int": {
-                                "summary": "An int value.",
-                                "value": "1"
-                            }
-                        }
+                        "required": true
                     }
                 ],
                 "responses": {

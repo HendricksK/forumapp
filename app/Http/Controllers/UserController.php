@@ -19,7 +19,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/user{id}",
+     *     path="/api/user/user?id={id}",
      *     summary="Gets a user based on id",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
@@ -42,16 +42,8 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/all",
+     *     path="/api/user/all",
      *     summary="Gets all users",
-     *     @OA\Parameter(
-     *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="OK"
@@ -66,15 +58,25 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/users/user{id}",
+     *     path="/api/user/user",
      *     summary="Create a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
-     *         name="id",
+     *         in="query",
+     *         name="name",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="email",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="password",
+     *         required=true,
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -86,8 +88,9 @@ class UserController extends Controller
     public function createUser(Request $request) 
     {
         $response = [
-            'user' => '',
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -97,7 +100,9 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-           return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
         }
 
         $params = $request->all();
@@ -128,15 +133,31 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
+     *     path="/api/user/user",
+     *     summary="Update a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
+     *         in="query",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="name",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="email",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="password",
+     *         required=true,
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -148,8 +169,9 @@ class UserController extends Controller
     {
 
         $response = [
-            'user' => '',
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -160,7 +182,9 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
          }
 
         $params = $request->all();
@@ -192,15 +216,13 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/users/user{id}",
-     *     summary="Create a user",
+     *     path="/api/user/user",
+     *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
-     *         in="path",
+     *         in="query",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string"),
-     *         @OA\Examples(example="int", value="1", summary="An int value.")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -212,7 +234,9 @@ class UserController extends Controller
     {
 
         $response = [
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -220,15 +244,17 @@ class UserController extends Controller
         ]);
         
         if ($validator->fails()) {
-            return $this->returnValidation($response, $validator);
-         }
+            $response['error'] = $this->returnValidation($response, $validator);
+            $response['user'] = false;
+            return $response;
+        }
 
         $params = $request->all();
         $user = User::find($params['id']);
 
         if (!empty($user)) {
             try {
-                $user->delete();
+                $response['user'] = $user->delete();
                 $response['error'] = false;
             } catch (Exception $e) {
                 Log::debug($e->getMessage());
@@ -242,7 +268,7 @@ class UserController extends Controller
         return $response;
     }
 
-    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator):array 
+    private function returnValidation(array $response,  \Illuminate\Validation\Validator $validator)
     {
         $response['user'] = false;
         foreach($validator->messages()->all() as $msg) {
