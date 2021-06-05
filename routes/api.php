@@ -122,7 +122,8 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
     Route::get('/post', function(Request $request) {
         $postController = new PostController();
         $response = $postController->get($request);
-        if ($response->isEmpty()) {
+        
+        if ($response['post']->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
         return $response;

@@ -39,6 +39,11 @@ class PostController extends Controller implements Crud
      */
     public function get(Request $request) {
 
+        $response = [
+            'post' => false,
+            'comments' => null,
+        ];
+
         $validator = Validator::make($request->all(), [
             'id' => 'required'
         ]);
@@ -48,8 +53,14 @@ class PostController extends Controller implements Crud
         }
 
         $params = $request->all();
+        $response['post'] = Post::where('id', $params['id'])->get();
+        $comments = Post::find(8)->comments;
 
-        return Post::where('id', $params['id'])->get();
+        foreach ($comments as $comment) {
+            $response['comments'][] = $comment;
+        }
+
+        return $response;
     }
 
     /**
