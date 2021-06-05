@@ -39,6 +39,9 @@ Route::prefix('user')->middleware('apilogger')->group(function() {
         if ($response['user']) {
             return $response['user'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
@@ -48,6 +51,9 @@ Route::prefix('user')->middleware('apilogger')->group(function() {
         if ($response['user']) {
             return $response['user'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
 
@@ -56,6 +62,9 @@ Route::prefix('user')->middleware('apilogger')->group(function() {
         $response = $userController->deleteUser($request);
         if (!empty($response['error'])) {
             return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
+        }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
         }
         return $response;
     });
@@ -77,6 +86,9 @@ Route::prefix('comment')->middleware('apilogger')->group(function() {
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return $response;
     });
     Route::put('/comment', function(Request $request) {
@@ -85,6 +97,9 @@ Route::prefix('comment')->middleware('apilogger')->group(function() {
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return $response;
     });
     Route::delete('/comment', function(Request $request) {
@@ -92,6 +107,9 @@ Route::prefix('comment')->middleware('apilogger')->group(function() {
         $response = $userController->delete($request);
         if ($response->isEmpty()) {
             return response()->json(['message' => 'Not Found.'], 404);
+        }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
         }
         return $response;
     });
@@ -114,6 +132,9 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
         if ($response['post']) {
             return $response['post'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::put('/post', function(Request $request) {
@@ -122,6 +143,9 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
         if ($response['post']) {
             return $response['post'];
         }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
+        }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });
     Route::delete('/post', function(Request $request) {
@@ -129,6 +153,9 @@ Route::prefix('post')->middleware('apilogger')->group(function() {
         $response = $postController->delete($request);
         if ($response['post']) {
             return $response['post'];
+        }
+        if ($response['status']) {
+            return response()->json(['message' => $response['error']], $response['status']);
         }
         return response()->json(['message' => 'Bad Request. ' . $response['error']], 400);
     });

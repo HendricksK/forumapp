@@ -88,8 +88,9 @@ class UserController extends Controller
     public function createUser(Request $request) 
     {
         $response = [
-            'user' => '',
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -166,8 +167,9 @@ class UserController extends Controller
     {
 
         $response = [
-            'user' => '',
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -228,7 +230,9 @@ class UserController extends Controller
     {
 
         $response = [
+            'user' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [

@@ -20,5 +20,10 @@ class Post extends Model
         'category_id'
     ];
 
+    public function comments ()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     protected $table = 'post';
 }

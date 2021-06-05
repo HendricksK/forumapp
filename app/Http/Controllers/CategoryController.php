@@ -96,6 +96,7 @@ class CategoryController extends Controller implements Crud
         $response = [
             'category' => '',
             'error' => '',
+            'status' => null
         ];
 
         $validator = Validator::make($request->all(), [
@@ -122,7 +123,8 @@ class CategoryController extends Controller implements Crud
                 $response['error'] = false;
             } else {
                 $response['category'] = false;
-                $response['error'] = 'Category already exists';
+                $response['error'] = '404 Not Found';
+                $response['status'] = 404;
             }
             
         } catch (Exception $e) {
@@ -166,6 +168,7 @@ class CategoryController extends Controller implements Crud
         $response = [
             'category' => '',
             'error' => '',
+            'status' => null
         ];
 
         $validator = Validator::make($request->all(), [
@@ -221,7 +224,9 @@ class CategoryController extends Controller implements Crud
     public function delete(Request $request) {
 
         $response = [
+            'category' => null,
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [

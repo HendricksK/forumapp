@@ -79,7 +79,13 @@ class PostController extends Controller implements Crud
      *     @OA\Parameter(
      *         description="Parameter with mutliple examples",
      *         in="query",
-     *         name="parent",
+     *         name="data",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="category_id",
      *         required=true,
      *     ),
      *     @OA\Response(
@@ -92,6 +98,7 @@ class PostController extends Controller implements Crud
         $response = [
             'post' => '',
             'error' => '',
+            'status' => null,
         ];
 
         $validator = Validator::make($request->all(), [
@@ -132,20 +139,129 @@ class PostController extends Controller implements Crud
         return $response;
     }
 
+    /**
+     * @OA\put(
+     *     path="/api/post/post",
+     *     summary="Update a post",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="name",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="data",
+     *         required=true,
+     *     ),
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="category_id",
+     *         required=true,
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
     public function update(Request $request) {
         $response = [
             'post' => '',
             'error' => '',
+            'status' => null,
         ];
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'name' => 'required',
+            'data' => 'required',
+            'category_id' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            return $this->returnValidation($response, $validator);
+         }
+
+        $params = $request->all();
+        $post = Post::find($params['id']);
+        
+        if (empty($post)) {
+            $response['post'] = false;
+            $response['error'] = '404 Not Found';
+            $response['status'] = 404;
+            return $response;
+        }
+
+        $post->name = $params['name'];
+        $post->data = $params['data'];
+        $post->category_id = $params['category_id'];
+        
+        try {
+
+            $post->save();
+            $response['post'] = $post->getAttributes();
+            $response['error'] = false;
+            
+        } catch (Exception $e) {
+            Log::debug($e->getMessage());
+            $response['post'] = false;
+            $response['error'] = $e->getMessage();
+        }
 
         return $response;
     }
 
+        /**
+     * @OA\Delete(
+     *     path="/api/post/post",
+     *     summary="Delete a post",
+     *     @OA\Parameter(
+     *         description="Parameter with mutliple examples",
+     *         in="query",
+     *         name="id",
+     *         required=true,
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     */
     public function delete(Request $request) {
         $response = [
-            'post' => '',
+            'post' => null,
             'error' => '',
+            'status' => null,
         ];
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+        
+        if ($validator->fails()) {
+            return $this->returnValidation($response, $validator);
+        }
+
+        $params = $request->all();
+        $post = Post::find($params['id']);
+
+        if (empty($post)) {
+            $response['post'] = false;
+            $response['error'] = '404 Not Found';
+            $response['status'] = 404;
+            return $response;
+        }
+
+        try {
+            $post->delete();
+            $response['error'] = false;
+        } catch (Exception $e) {
+            Log::debug($e->getMessage());
+            $response['error'] = $e->getMessage();
+        }
 
         return $response;
     }
